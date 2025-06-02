@@ -13,6 +13,7 @@ public:
     int grid[33][60];
     void Draw();
     std::string LevelStuff;
+    std::vector<std::string> Levels;
 
 private:
 

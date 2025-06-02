@@ -3,6 +3,7 @@
 #include "raylib.h"
 #include<fstream>
 #include<string>
+#include "Levels.hpp"
 
 Grid::Grid(){
 
@@ -17,8 +18,8 @@ Grid::Grid(){
 
 void Grid::Initialize(){
 
-    std::fstream ReadFile;
-    ReadFile.open("C:/Users/bodie/OneDrive/Documents/Games/Platformer/Levels/TestLevel.txt");
+    Levels = returnbingus();
+    std::ifstream ReadFile(Levels[0]);
 
     std::string line;
     int row = 0;
