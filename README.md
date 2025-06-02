@@ -4,7 +4,8 @@ A little platformer written with C++ and Raylib!
 
 Features:
 
-- Text based level editing system (Restricted to 1920 x 1080 screen size)
+- Text based level editing system (Restricted to 1920 x 1080 window size)
+- Pressing space switches levels
 - Other than that, not much!
 
 FOR NEXT UPDATE:
