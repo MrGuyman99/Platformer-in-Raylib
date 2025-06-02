@@ -11,15 +11,15 @@ Grid::Grid(){
     NumCols = GetScreenWidth() / 32;
     //33 or 32, haven't decided
     cellSize = 33;
-    Initialize();
     Texture = LoadTexture("Graphics/MetalThing.png");
+    index = 0;
 
 }
 
 void Grid::Initialize(){
-
+    
     Levels = returnbingus();
-    std::ifstream ReadFile(Levels[0]);
+    std::ifstream ReadFile(Levels[index]);
 
     std::string line;
     int row = 0;
@@ -41,7 +41,6 @@ void Grid::Initialize(){
             
             else {
                 
-                std::cerr << "Unknown tile: " << line[column] << " at row " << row << ", col " << column << std::endl;
                 grid[row][column] = 0;
             
             }
@@ -51,6 +50,20 @@ void Grid::Initialize(){
     }
     
     ReadFile.close();
+
+    //DEBUG
+    if(IsKeyPressed(KEY_SPACE)){
+
+        index = index + 1;
+
+        if(index > 1){
+
+            index = 0;
+
+        }
+
+    }
+
 }
 
 void Grid::Print(){

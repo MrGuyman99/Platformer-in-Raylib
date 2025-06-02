@@ -14,6 +14,7 @@ public:
     void Draw();
     std::string LevelStuff;
     std::vector<std::string> Levels;
+    int index;
 
 private:
 
