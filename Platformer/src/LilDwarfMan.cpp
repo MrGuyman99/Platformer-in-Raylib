@@ -1,26 +1,38 @@
 #include "raylib.h"
 #include<iostream>
 #include "LilDwarfMan.hpp"
+#include "grid.hpp"
 
 DwarfMan::DwarfMan(){
 
     //ALL SUBJECT TO CHANGE
-    //int speed = 8;
-    //int velovity_y = 8;
-    //int gravity = 8;
+    speed = 8;
+    velocity_y = 8;
+    gravity = 8;
+    Position.x = 960;
+    Position.y = 540;
+    TestTexture = LoadTexture("Graphics/Test.png");
 
 }
 
 void DwarfMan::Draw(){
 
-
-
+    DrawTexture(TestTexture, Position.x, Position.y, WHITE);
 
 }
 
-void DwarfMan::Update(){
+void DwarfMan::Update(bool ShouldFall){
 
+    if(ShouldFall == true){
 
+        Position.y = Position.y + gravity;
 
+    }
+
+}
+
+void DwarfMan::GetRect(){
+
+    Rectangle playerBox = {Position.x, Position.y, static_cast<float>(TestTexture.width), static_cast<float>(TestTexture.height)};
 
 }

@@ -8,13 +8,16 @@ public:
 
     DwarfMan();
     void Draw();
-    void Update();
+    void Update(bool ShouldFall);
+    //Love the name so much
+    void GetRect();
+    Vector2 Position;
 
 private:
     
-    //Texture2D Texture;
-    //int speed;
-    //int velovity_y;
-    //int gravity;
+    Texture2D TestTexture;
+    int speed;
+    int velocity_y;
+    int gravity;
 
 };

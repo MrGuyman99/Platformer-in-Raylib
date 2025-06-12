@@ -10,17 +10,19 @@ public:
     Grid();
     void Initialize();
     void Print();
-    int grid[33][60];
     void Draw();
-    std::string LevelStuff;
+    void Update();
+    int grid[33][60];
+    std::string OldLevel;
     std::vector<std::string> Levels;
     int index;
+    int numRows;
+    int NumCols;
+    std::vector<Rectangle> CollisionBoxes;
+    Texture2D MetalThing;
 
 private:
 
-    int numRows;
-    int NumCols;
-    int cellSize;
-    Texture2D Texture;
+    float cellSize;
 
 };
