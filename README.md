@@ -8,7 +8,7 @@ Features:
 - Pressing space switches levels
 - Other than that, not much!
 - Flalling Dwarf guy (Spooky)
-- (Somewhat) Unfinished collision code
+- Relatively complete collision code
 
 FOR NEXT UPDATE:
 
