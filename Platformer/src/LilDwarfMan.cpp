@@ -21,9 +21,9 @@ void DwarfMan::Draw(){
 
 }
 
-void DwarfMan::Update(bool ShouldFall){
+void DwarfMan::Update(bool IsNOTOnFloor){
 
-    if(ShouldFall == true){
+    if(IsNOTOnFloor == true){
 
         Position.y = Position.y + gravity;
 
@@ -31,8 +31,8 @@ void DwarfMan::Update(bool ShouldFall){
 
 }
 
-void DwarfMan::GetRect(){
+Rectangle DwarfMan::GetRect(){
 
-    Rectangle playerBox = {Position.x, Position.y, static_cast<float>(TestTexture.width), static_cast<float>(TestTexture.height)};
+    return Rectangle{Position.x, Position.y, static_cast<float>(TestTexture.width), static_cast<float>(TestTexture.height)};
 
 }

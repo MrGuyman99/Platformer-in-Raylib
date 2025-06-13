@@ -16,13 +16,13 @@ public:
     std::string OldLevel;
     std::vector<std::string> Levels;
     int index;
-    int numRows;
-    int NumCols;
     std::vector<Rectangle> CollisionBoxes;
     Texture2D MetalThing;
-
+    
 private:
 
     float cellSize;
+    int numRows;
+    int NumCols;
 
 };

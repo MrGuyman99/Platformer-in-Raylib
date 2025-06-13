@@ -10,7 +10,7 @@ public:
     void Draw();
     void Update(bool ShouldFall);
     //Love the name so much
-    void GetRect();
+    Rectangle GetRect();
     Vector2 Position;
 
 private:

@@ -4,7 +4,6 @@
 #include<fstream>
 #include<string>
 #include "Levels.hpp"
-#include "LilDwarfMan.hpp"
 
 //Initialzing Global Variables
 Grid::Grid(){
@@ -19,7 +18,6 @@ Grid::Grid(){
     index = 0;
     //Gets all of the level paths from Levels.cpp & Levels.hpp
     Levels = returnbingus();
-    DwarfMan Player;
 
 }
 
@@ -98,15 +96,18 @@ void Grid::Draw(){
 
                 DrawTexture(MetalThing, column * cellSize + 1, row * cellSize + 1, WHITE);
 
-            }       
+            }
             
             if(grid[row][column] != 0){
 
-                CollisionBoxes.push_back(Rectangle{static_cast<float>(column), static_cast<float>(row), cellSize + 1, cellSize + 1});
+                //Big ol' thang (I'm going f*cking insane)
+                CollisionBoxes.push_back(Rectangle{static_cast<float>(column * cellSize + 1), 
+                static_cast<float>(row * cellSize + 1), cellSize + 1, cellSize + 1});
 
             }
         }
     }
+
 }
 
 void Grid::Update(){
