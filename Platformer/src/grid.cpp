@@ -31,6 +31,9 @@ void Grid::Initialize(){
     OldLevel = Levels[index];
     std::string line;
     int row = 0;
+    //Clears the old collisions
+    CollisionBoxes.clear();
+    
     //Reads the given level (.txt) file line by line incrementing column & row as needed
     while (std::getline(ReadFile, line) && row < numRows) {
         
@@ -47,7 +50,11 @@ void Grid::Initialize(){
             else if (line[column] == '1') {
                 
                 grid[row][column] = 1;
-            
+                
+                //Big ol' thang (I'm going f*cking insane)
+                CollisionBoxes.push_back(Rectangle{static_cast<float>(column * cellSize + 1), 
+                static_cast<float>(row * cellSize + 1), cellSize + 1, cellSize + 1});
+
             } 
             
             //Failsafe (TODO: Put a "missing" texture here)
@@ -56,6 +63,7 @@ void Grid::Initialize(){
                 grid[row][column] = 0;
             
             }
+        
         }    
         
         row++;
@@ -95,14 +103,6 @@ void Grid::Draw(){
             if(grid[row][column] == 1){
 
                 DrawTexture(MetalThing, column * cellSize + 1, row * cellSize + 1, WHITE);
-
-            }
-            
-            if(grid[row][column] != 0){
-
-                //Big ol' thang (I'm going f*cking insane)
-                CollisionBoxes.push_back(Rectangle{static_cast<float>(column * cellSize + 1), 
-                static_cast<float>(row * cellSize + 1), cellSize + 1, cellSize + 1});
 
             }
         }

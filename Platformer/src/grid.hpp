@@ -18,7 +18,7 @@ public:
     int index;
     std::vector<Rectangle> CollisionBoxes;
     Texture2D MetalThing;
-    
+
 private:
 
     float cellSize;
