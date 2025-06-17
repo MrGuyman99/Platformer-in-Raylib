@@ -24,6 +24,4 @@ For the future:
 That's it! It's simple but I'm proud of how far it's come
 
 Made with ❤️ (& Visual Studio Code)
-- Mr.GuyMan99
-
-_**An Underpass studios project**_
+Mr.GuyMan99
