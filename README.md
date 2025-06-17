@@ -6,11 +6,24 @@ Features:
 
 - Text based level editing system (Restricted to 1920 x 1080 window size)
 - Pressing space switches levels
-- Other than that, not much!
-- Flalling Dwarf guy (Spooky)
-- Relatively complete collision code
+- Half-Baked Movement Code
+- Four custom made tiles
+- Collisions
 
 FOR NEXT UPDATE:
 
-- Character (Maybe not animations, baby steps)
+- Jumping (Maybe not animations, baby steps)
 - New tiles
+
+For the future:
+
+  - GUI Level Editing System
+  - Cool movement tech
+  - Actual Level Switching System
+
+That's it! It's simple but I'm proud of how far it's come
+
+Made with ❤️ (& Visual Studio Code)
+- Mr.GuyMan99
+
+_**An Underpass studios project**_
