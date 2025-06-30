@@ -12,12 +12,12 @@ A little platformer written with C++ and Raylib!
 
 **For Next Update:**
 
-- Jumping (Maybe not animations, baby steps)
-- New tiles
+- Animations
+- Polishing Jumping
 
 **For the future:**
 
-  - GUI Level Editing System
+  - GUI Level Editing System (Possibly Different Executable)
   - Cool movement tech
   - Actual Level Switching System
 
