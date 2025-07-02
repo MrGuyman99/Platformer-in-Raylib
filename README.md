@@ -4,20 +4,21 @@ A little platformer written with C++ and Raylib!
 
 **Features:**
 
-- Text based level editing system (Restricted to 1920 x 1080 window size)
-- Pressing space switches levels
-- Half-Baked Movement Code
-- Four custom made tiles
-- Collisions
-
+  - Text based level editing system (Restricted to 1920 x 1080 window size)
+  - Pressing space switches levels
+  - Half-Baked Movement Code
+  - Cutom Made Tiles
+  - Collisions
+  - ImGui and rlImGui integration
+  
 **For Next Update:**
 
-- Animations
-- Polishing Jumping
+  - GUI Level Editing System (Possibly Different Executable)
+  - Animations
+  - Polishing Jumping
 
 **For the future:**
 
-  - GUI Level Editing System (Possibly Different Executable)
   - Cool movement tech
   - Actual Level Switching System
 
