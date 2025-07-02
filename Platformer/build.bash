@@ -1,0 +1,1 @@
+g++ src/main.cpp src/grid.cpp src/Levels.cpp src/LilDwarfMan.cpp imgui_demo.cpp imgui_draw.cpp imgui_tables.cpp imgui_widgets.cpp imgui.cpp rlImGui.cpp -I/home/bodie/Documents/Games/Test/include -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -o LevelEditor
