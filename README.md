@@ -13,7 +13,7 @@ A little platformer written with C++ and Raylib!
   
 **For Next Update:**
 
-  - GUI Level Editing System (Possibly Different Executable)
+  - GUI Level Editing System
   - Animations
   - Polishing Jumping
 
