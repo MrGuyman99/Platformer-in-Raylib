@@ -14,6 +14,7 @@ int main(){
 
     //Raylib Stuff
     SetConfigFlags(FLAG_VSYNC_HINT);
+    //SetConfigFlags(FLAG_WINDOW_TOPMOST | FLAG_WINDOW_UNDECORATED); (Use with second monitor)
     SetConfigFlags(FLAG_FULLSCREEN_MODE);
     InitWindow(1920, 1080, "Lil' Dwarf Game");
     SetTargetFPS(60);
@@ -75,7 +76,6 @@ int main(){
 
         }
 
-        std::cout << IsWindowFullscreen();
 
     }
 

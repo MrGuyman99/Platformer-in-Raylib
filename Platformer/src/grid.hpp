@@ -29,7 +29,7 @@ public:
     std::vector<Rectangle> BottomCollisionBoxes;
     
     //Textures
-    Texture2D MetalThing;
+    Texture MetalThing;
     Texture2D Grass;
     Texture2D Grater;
     Texture2D Chain;
@@ -41,5 +41,6 @@ private:
     float cellSize;
     int numRows;
     int NumCols;
+    int TileSelected;
 
 };
