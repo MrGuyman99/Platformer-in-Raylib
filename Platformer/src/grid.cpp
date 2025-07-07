@@ -1,12 +1,15 @@
+//Libraries
 #include "raylib.h"
 #include "imgui.h"
 #include "rlImGui.h"
 
+//Standard Libraries
 #include<iostream>
 #include<fstream>
 #include<string>
 #include<cmath>
 
+//Header Files
 #include "Levels.hpp"
 #include "grid.hpp"
 
@@ -27,7 +30,7 @@ Grid::Grid(){
     //Gets all of the level paths from Levels.cpp & Levels.hpp
     Levels = returnbingus();
     //Completely Arbitrary
-    TileSelected = 100;
+    TileSelected = 0;
 
 }
 
@@ -125,11 +128,7 @@ void Grid::Initialize(){
             }
 
             //Failsafe (TODO: Put a "missing" texture here)
-            else {
-                
-                grid[row][column] = 0;
-            
-            }
+            else {grid[row][column] = 0;}
         
         }    
         
@@ -139,23 +138,6 @@ void Grid::Initialize(){
     
     //Closes the file
     ReadFile.close();
-
-}
-
-//Just for debugging, simply runs through grid[][] and prints all the values
-void Grid::Print(){
-
-    for(int row = 0; row < numRows; row++){
-
-        for(int column = 0; column < NumCols; column++){
-
-            std::cout << grid[row][column];
-
-        }
-
-        std::cout << std::endl;
-
-    }
 
 }
 
@@ -187,13 +169,13 @@ void Grid::Draw(){
     int snappedX = std::round((GetMouseX() - cellSize / 2) / (float)cellSize) * cellSize + 1;
     int snappedY = std::round((GetMouseY() - cellSize / 2) / (float)cellSize) * cellSize + 1;
 
-    //Draws the Currently Selected Tile from the Tile Editor (NEEDS A REWORK DESPERETLY)
-    if(TileSelected == 0){DrawTexture(MetalThing, snappedX, snappedY, WHITE);}
-    else if(TileSelected == 1){DrawTexture(Pipe, snappedX, snappedY, WHITE);}
-    else if(TileSelected == 2){DrawTexture(Pipe2, snappedX, snappedY, WHITE);}
-    else if(TileSelected == 3){DrawTexture(Chain, snappedX, snappedY, WHITE);}
-    else if(TileSelected == 4){DrawTexture(Grass, snappedX, snappedY, WHITE);}
-    else if(TileSelected == 5){DrawTexture(Grater, snappedX, snappedY, WHITE);}
+    //Draws the Currently Selected Tile from the Tile Editor
+    if(TileSelected == 1){DrawTexture(MetalThing, snappedX, snappedY, WHITE);}
+    else if(TileSelected == 2){DrawTexture(Grass, snappedX, snappedY, WHITE);}
+    else if(TileSelected == 3){DrawTexture(Grater, snappedX, snappedY, WHITE);}
+    else if(TileSelected == 4){DrawTexture(Chain, snappedX, snappedY, WHITE);}
+    else if(TileSelected == 5){DrawTexture(Pipe2, snappedX, snappedY, WHITE);}
+    else if(TileSelected == 6){DrawTexture(Pipe, snappedX, snappedY, WHITE);}
 
     //for(size_t i = 0; i <= FloorCollisionBoxes.size(); i++){
 
@@ -226,13 +208,13 @@ void Grid::Update(){
     
     if(Levels[index] != OldLevel){Initialize();}
     
-    //Getting there
+    //The Tile Placing Code (This took so goddman long)
     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
 
-        //Replace with Levels[index]
+        //Creates a Read Only instance of the current level
         std::ifstream ReadFile(Levels[index]);
         
-        //Two strings because of course
+        //Two strings, one which holds the current line string and the other which holds the full file 
         std::string ContentsInCurrentLine;
         std::string FullFile;
         
@@ -242,30 +224,37 @@ void Grid::Update(){
             FullFile.append(ContentsInCurrentLine + "\n");
 
         }
-    
-        FullFile[std::round((GetMouseX() - cellSize / 2) / (float)cellSize) * cellSize + 1] = '2';
-
+        
+        //Converts 2D coordinates into 1D (The (NumCols + 2) skips over the \n's) and then changes the letter accordingly 
+        //TileSelected + '0' converts the current value of TileSelected to characters and then adds them to the file
+        FullFile[std::round((GetMouseY() - cellSize / 2) / cellSize) * (NumCols + 2) + std::round((GetMouseX() - cellSize / 2) / cellSize)] 
+        = TileSelected + '0';
+        
+        //Closes the read only instance
         ReadFile.close();
 
+        //Opens a write-only instance (This had to be done because WriteFile << FullFile didn't work with just std::fstream)
         std::ofstream WriteFile(Levels[index]);
 
         WriteFile << FullFile;
         WriteFile.close();
+        //Re-intializes the level with the new values
         Initialize();
 
     }   
 
 }
 
-
-//UNFINSHED
+//Renders and Intializes the Level Editor UI
 void Grid::RenderUI(){
 
     ImGui::Begin("Level Editor/Tile Selector");
 
-    static int selectedIdx = -1;
+    //Sets the current Counter to 0
     int Counter = 0;
+    //Sets the default name to Metal
     std::string Name = "Metal";
+    static int selectedIdx = -1;
 
     for (int y = 0; y < 3; ++y) {
         
@@ -283,19 +272,19 @@ void Grid::RenderUI(){
                 selectedIdx = idx;
 
                 //We pass TileSelected to the Draw() function so we can draw the tile
-                if(idx == 0){TileSelected = 0;}                                                                        
+                if(idx == 0){TileSelected = 1;}                                                                        
                 
-                else if(idx == 1){TileSelected = 1;}
+                else if(idx == 1){TileSelected = 2;}
                 
-                else if(idx == 2){TileSelected = 2;}
+                else if(idx == 2){TileSelected = 3;}
 
-                else if(idx == 3){TileSelected = 3;}
+                else if(idx == 3){TileSelected = 4;}
 
-                else if(idx == 4){TileSelected = 4;}
+                else if(idx == 4){TileSelected = 5;}
 
-                else if(idx == 5){TileSelected = 5;}
+                else if(idx == 5){TileSelected = 6;}
 
-                else{TileSelected = 100;}
+                else{TileSelected = 0;}
 
             }
             
@@ -307,52 +296,53 @@ void Grid::RenderUI(){
             ImVec2 img_min = ImVec2(center.x - 16, center.y - 16);
             ImVec2 img_max = ImVec2(center.x + 16, center.y + 16);
             
-            //Naming
+            //Naming and Drawing the Preview on the Level Editor window
             if(Counter == 0){
 
                 //Because of the way this is formated the name of the NEXT item is declared
-                Name = "Pipe"; 
+                Name = "Dotted"; 
                 draw_list->AddImage((ImTextureID)MetalThing.id, img_min, img_max);
 
             }
 
             else if(Counter == 1){
 
-                Name = "Pipe2";
-                draw_list->AddImage((ImTextureID)Pipe.id, img_min, img_max);
+                Name = "Grater";
+                draw_list->AddImage((ImTextureID)Grass.id, img_min, img_max);
 
             }
 
             else if(Counter == 2){
 
                 Name = "Chain";
-                draw_list->AddImage((ImTextureID)Pipe2.id, img_min, img_max);
+                draw_list->AddImage((ImTextureID)Grater.id, img_min, img_max);
 
             }
 
             else if(Counter == 3){
 
-                Name = "Dotted";
+                Name = "Pipe2";
                 draw_list->AddImage((ImTextureID)Chain.id, img_min, img_max);
 
             }
 
             else if(Counter == 4){
 
-                Name = "Grater";
-                draw_list->AddImage((ImTextureID)Grass.id, img_min, img_max);
+                Name = "Pipe";
+                draw_list->AddImage((ImTextureID)Pipe2.id, img_min, img_max);
 
             }
 
             else if(Counter == 5){
 
                 Name = "Default";
-                draw_list->AddImage((ImTextureID)Grater.id, img_min, img_max);
+                draw_list->AddImage((ImTextureID)Pipe.id, img_min, img_max);
 
             }
 
             else{draw_list->AddImage((ImTextureID)MetalThing.id, img_min, img_max);}
 
+            //Increments the Counter
             Counter++;
 
             ImGui::PopID();

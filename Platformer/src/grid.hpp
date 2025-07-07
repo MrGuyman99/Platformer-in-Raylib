@@ -10,7 +10,6 @@ public:
     //Methods
     Grid();
     void Initialize();
-    void Print();
     void Draw();
     void Update();
     void MakeWalls(int column, int row);
