@@ -10,10 +10,10 @@ A little platformer written with C++ and Raylib!
   - Cutom Made Tiles
   - Collisions
   - ImGui and rlImGui integration
-  
+  - GUI Level Editing System  
+
 **For Next Update:**
 
-  - GUI Level Editing System
   - Animations
   - Polishing Jumping
 
