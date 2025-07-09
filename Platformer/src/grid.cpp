@@ -39,7 +39,7 @@ void Grid::MakeWalls(int column, int row){
     
     //Floor (Top part of the tile, the one that the player stands on)
     FloorCollisionBoxes.push_back(Rectangle{static_cast<float>(column * cellSize + 1), 
-    static_cast<float>(row * cellSize + 1), cellSize, 8});
+    static_cast<float>(row * cellSize + 1), cellSize, 16});
     
     //Left Side
     LeftCollisionBoxes.push_back(Rectangle{static_cast<float>(column * cellSize + 1), 

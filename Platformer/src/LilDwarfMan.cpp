@@ -15,7 +15,7 @@ DwarfMan::DwarfMan(){
     //ALL SUBJECT TO CHANGE
     speed = 8.0f;
     velocity = {0, 0};
-    gravity = 2.75;
+    gravity = 0.5;
     Position.x = 960;
     Position.y = 540;
     TestTexture = LoadTexture("Graphics/Test.png");
@@ -38,13 +38,6 @@ void DwarfMan::Update(bool IsNOTOnFloor){
 
     //Increments the velocity to gradually increase the strength of gravity
     velocity.y += gravity;
-
-    //Terminal velocity
-    if(velocity.y > 3.5){
-
-        velocity.y = 3.5;
-        
-    }
 
     //If the player is on the ground & are not trying to jump
     if(IsNOTOnFloor == false && IsKeyPressed(KEY_UP) == false){
@@ -125,7 +118,7 @@ void DwarfMan::HandleInput(Grid& grid){
 
         if(Cannot_Jump == false){
 
-            velocity.y = -24;
+            velocity.y = -13;
 
         }
     
