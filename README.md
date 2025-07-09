@@ -15,7 +15,6 @@ A little platformer written with C++ and Raylib!
 **For Next Update:**
 
   - Animations
-  - Polishing Jumping
 
 **For the future:**
 
