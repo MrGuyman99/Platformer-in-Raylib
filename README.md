@@ -3,8 +3,8 @@ A little platformer written with C++ and Raylib!
 **Work in Progress!!**
 
 **Features:**
-
-  - Text based level editing system (Restricted to 1920 x 1080 window size)
+  
+  - GUI level editing system that saves levels to text files
   - Pressing space switches levels
   - Half-Baked Movement Code
   - Cutom Made Tiles
