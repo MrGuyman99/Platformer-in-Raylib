@@ -79,13 +79,13 @@ int main(){
 
     }
 
-    //Deconstructers (Bugged Ouit when I tried to OOP them so I just slapped them here)
+    //Deconstructers (Bugged Out when I tried to OOP them so I just slapped them here)
     UnloadTexture(grid.MetalThing);
     UnloadTexture(grid.Grass);
     UnloadTexture(grid.Grater);
     UnloadTexture(grid.Pipe);
     UnloadTexture(grid.Pipe2);
-    UnloadTexture(Player.TestTexture);
+    UnloadTexture(Player.DwarfTexture);
     rlImGuiShutdown();
     CloseWindow();
 

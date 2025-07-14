@@ -9,6 +9,7 @@
 
 //C++ Standard 
 #include<iostream>
+#include<string>
 
 DwarfMan::DwarfMan(){
 
@@ -18,18 +19,63 @@ DwarfMan::DwarfMan(){
     gravity = 0.5;
     Position.x = 960;
     Position.y = 540;
-    TestTexture = LoadTexture("Graphics/Test.png");
+    DwarfTexture = LoadTexture("Graphics/DwarfMan.png");
     Collided_R = false;
     Collided_L = false;
     Collided_B = false;
     Cannot_Jump = true;
+    CurrentFramePos = 0;
+    FrameCounter = 0;
+    WasMoving = "Right";
 
 }
 
-//Draws the DwarfManTexture (TODO: Put animations near here)
+//Function for quickly adding animations to DwarfMan (Pass one frame less than you need for Num_Frames)
+void DwarfMan::Animate(Texture2D Texture, int FrameSpeed, int Num_Frames, int StartPos){
+
+    FrameCounter++;
+
+    if(FrameCounter >= FrameSpeed){
+
+        CurrentFramePos = CurrentFramePos + 30;
+        if(CurrentFramePos > Num_Frames * 30){CurrentFramePos = 0;}
+        FrameCounter = 0;
+
+    }
+
+    Rectangle SourcePos = {(float)StartPos + CurrentFramePos, 0, 30.0f, 39};
+    DrawTextureRec(Texture, SourcePos, (Vector2){Position.x, Position.y + 5}, WHITE);
+
+}
+
+//Drawing TODO: 
 void DwarfMan::Draw(){
 
-    DrawTexture(TestTexture, Position.x, Position.y + 5, WHITE);
+    if(velocity.x == speed){
+
+        Animate(DwarfTexture, 4, 3, 120);
+        WasMoving = "Right";
+
+    }
+
+    else if(velocity.x == -speed){
+
+        Animate(DwarfTexture, 4, 3, 240);
+        WasMoving = "Left";
+
+    }
+
+    else if(velocity.x == 0 && WasMoving == "Right"){
+
+        Animate(DwarfTexture, 6, 1, 0);
+
+    }
+
+    else if(velocity.x == 0 && WasMoving == "Left"){
+
+        Animate(DwarfTexture, 6, 1, 60);
+
+    }
 
 }
 
@@ -44,6 +90,12 @@ void DwarfMan::Update(bool IsNOTOnFloor){
 
         //Stops you from falling
         velocity.y = 0;
+
+    }
+
+    if(IsNOTOnFloor == true && velocity.y == 0){
+
+        velocity.y = velocity.y + 0.5;
 
     }
 
@@ -101,7 +153,7 @@ void DwarfMan::HandleInput(Grid& grid){
     
     //Sets the velocity to equal speed (Gets Added in Update())
     if(IsKeyDown(KEY_RIGHT) && Collided_R == false){
-
+        
         velocity.x = speed;
 
     }
@@ -110,6 +162,13 @@ void DwarfMan::HandleInput(Grid& grid){
     if(IsKeyDown(KEY_LEFT) && Collided_L == false){
 
         velocity.x = -speed;
+
+    }
+
+    //Resets the CurrentFramePos to prevent glitchs 
+    if(IsKeyReleased(KEY_LEFT) || IsKeyReleased(KEY_RIGHT)){
+
+        CurrentFramePos = 0;
 
     }
 
@@ -129,7 +188,7 @@ void DwarfMan::HandleInput(Grid& grid){
 //Rectangle for the floor collision box (Probably could combine these but they are just different enough)
 Rectangle DwarfMan::GetRectFloor(){
 
-    return Rectangle{Position.x + 1, Position.y + TestTexture.height - 1, static_cast<float>(TestTexture.width - 8), 
+    return Rectangle{Position.x + 1, Position.y + DwarfTexture.height - 1, static_cast<float>(22), 
     static_cast<float>(8)};
 
 }
@@ -137,8 +196,8 @@ Rectangle DwarfMan::GetRectFloor(){
 //Rectangle for the wall collision box
 Rectangle DwarfMan::GetRectWalls(){
 
-    return Rectangle{Position.x, Position.y, static_cast<float>(TestTexture.width), 
-    static_cast<float>(TestTexture.height - 8)};
+    return Rectangle{Position.x, Position.y, static_cast<float>(30), 
+    static_cast<float>(DwarfTexture.height - 8)};
 
 }
 

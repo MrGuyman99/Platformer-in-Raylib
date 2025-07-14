@@ -12,10 +12,11 @@ public:
     void Update(bool ShouldFall);
     void HandleInput(Grid& grid);
     void RenderUI();
+    void Animate(Texture2D Texture, int FrameSpeed, int Num_Frames, int StartPos);
     Rectangle GetRectFloor();
     Rectangle GetRectWalls();
     Vector2 Position;
-    Texture2D TestTexture;
+    Texture2D DwarfTexture;
 
 private:
     
@@ -26,5 +27,8 @@ private:
     Vector2 velocity;
     float gravity;
     float speed;
+    int CurrentFramePos;
+    int FrameCounter;
+    std::string WasMoving;
 
 };
