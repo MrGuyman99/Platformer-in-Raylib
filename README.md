@@ -1,5 +1,5 @@
 # Platformer-in-Raylib
-A little platformer written with C++ and Raylib!
+A little platformer written with C++, Raylib, and rlmGui!
 **Work in Progress!!**
 
 **Features:**
