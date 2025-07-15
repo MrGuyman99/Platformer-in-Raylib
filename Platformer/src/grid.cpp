@@ -13,6 +13,10 @@
 #include "Levels.hpp"
 #include "grid.hpp"
 
+/*
+TODO: Make a vector of Textures & refactor some code
+*/
+
 //Initialzing Global Variables
 Grid::Grid(){
 
@@ -20,12 +24,8 @@ Grid::Grid(){
     NumCols = 60;
     cellSize = 32;
     //Put all textures here
-    MetalThing = LoadTexture("Graphics/MetalThing.png");
-    Grass = LoadTexture("Graphics/Grass(?).png");
-    Grater = LoadTexture("Graphics/Grater.png");
-    Chain = LoadTexture("Graphics/Chain.png");
-    Pipe = LoadTexture("Graphics/Pipe.png");
-    Pipe2 = LoadTexture("Graphics/Pipe2.png");
+    Textures = {LoadTexture("Graphics/MetalThing.png"), LoadTexture("Graphics/Grass(?).png"), LoadTexture("Graphics/Grater.png"), 
+    LoadTexture("Graphics/Chain.png"), LoadTexture("Graphics/Pipe.png"), LoadTexture("Graphics/Pipe2.png"), LoadTexture("Graphics/Latern.png")};
     index = 0;
     //Gets all of the level paths from Levels.cpp & Levels.hpp
     Levels = returnbingus();
@@ -77,63 +77,12 @@ void Grid::Initialize(){
         
         for(int column = 0; column < NumCols; column++) {
             
-            //If '0' set that space in grid to also equal zero (See Grid::Draw)
-            if(line[column] == '0') {
-                
-                grid[row][column] = 0;
-            
-            }    
-            
-            //Same thing but if the given tile equals 1
-            else if(line[column] == '1') {
-                
-                grid[row][column] = 1;
-                MakeWalls(column, row);
+            grid[row][column] = line[column] - '0';
+            if(grid[row][column] != 0 && grid[row][column] != 4){MakeWalls(column, row);}
 
-            } 
-            
-            else if(line[column] == '2'){
-
-                grid[row][column] = 2;
-                MakeWalls(column, row);
-
-            }
-
-            else if(line[column] == '3'){
-
-                grid[row][column] = 3;
-                MakeWalls(column, row);
-
-            }
-
-            else if(line[column] == '4'){
-
-                grid[row][column] = 4;
-                MakeWalls(column, row);
-
-            }
-
-            else if(line[column] == '5'){
-
-                grid[row][column] = 5;
-                MakeWalls(column, row);
-
-            }
-
-            else if(line[column] == '6'){
-
-                grid[row][column] = 6;
-                MakeWalls(column, row);
-
-            }
-
-            //Failsafe (TODO: Put a "missing" texture here)
-            else {grid[row][column] = 0;}
-        
         }    
-        
+    
         row++;
-
     }
     
     //Closes the file
@@ -149,19 +98,8 @@ void Grid::Draw(){
 
         for(int column = 0; column < NumCols; column++){
 
-            //If grid[row][column] equals 1 then print the MetalThing texture with the given size
-            if(grid[row][column] == 1){DrawTexture(MetalThing, column * cellSize + 1, row * cellSize + 1, WHITE);}   
-            //Grass Texture (Actually the tile with 4 dots)
-            else if(grid[row][column] == 2){DrawTexture(Grass, column * cellSize + 1, row * cellSize + 1, WHITE);}
-            //Grater/Cage texture
-            else if(grid[row][column] == 3){DrawTexture(Grater, column * cellSize + 1, row * cellSize + 1, WHITE);}
-            //Chain texture
-            else if(grid[row][column] == 4){DrawTexture(Chain, column * cellSize + 1, row * cellSize + 1, WHITE);}
-            //Pipe (The less fun version)
-            else if(grid[row][column] == 5){DrawTexture(Pipe2, column * cellSize + 1, row * cellSize + 1, WHITE);}
-            //Pipe (More Fun Version)
-            else if(grid[row][column] == 6){DrawTexture(Pipe, column * cellSize + 1, row * cellSize + 1, WHITE);}
-
+            DrawTexture(Textures[grid[row][column] - 1], column * cellSize + 1, row * cellSize + 1, WHITE);
+        
         }   
     
     }
@@ -170,23 +108,9 @@ void Grid::Draw(){
     int snappedY = std::round((GetMouseY() - cellSize / 2) / (float)cellSize) * cellSize + 1;
 
     //Draws the Currently Selected Tile from the Tile Editor
-    if(TileSelected == 1){DrawTexture(MetalThing, snappedX, snappedY, WHITE);}
-    else if(TileSelected == 2){DrawTexture(Grass, snappedX, snappedY, WHITE);}
-    else if(TileSelected == 3){DrawTexture(Grater, snappedX, snappedY, WHITE);}
-    else if(TileSelected == 4){DrawTexture(Chain, snappedX, snappedY, WHITE);}
-    else if(TileSelected == 5){DrawTexture(Pipe2, snappedX, snappedY, WHITE);}
-    else if(TileSelected == 6){DrawTexture(Pipe, snappedX, snappedY, WHITE);}
+    DrawTexture(Textures[TileSelected - 1], snappedX, snappedY, WHITE);
 
-    //for(size_t i = 0; i <= FloorCollisionBoxes.size(); i++){
-
-        //DrawRectangleRec(FloorCollisionBoxes[i], RED);
-        //DrawRectangleRec(BottomCollisionBoxes[i], GREEN);
-        //DrawRectangleRec(LeftCollisionBoxes[i], YELLOW);
-        //DrawRectangleRec(RightCollisionBoxes[i], BLUE);
-    
-    //}
-
-}
+}   
 
 void Grid::Update(){
 
@@ -209,7 +133,7 @@ void Grid::Update(){
     if(Levels[index] != OldLevel){Initialize();}
     
     //The Tile Placing Code (This took so goddman long)
-    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) == false){
 
         //Creates a Read Only instance of the current level
         std::ifstream ReadFile(Levels[index]);
@@ -224,7 +148,7 @@ void Grid::Update(){
             FullFile.append(ContentsInCurrentLine + "\n");
 
         }
-        
+
         //Converts 2D coordinates into 1D (The (NumCols + 2) skips over the \n's) and then changes the letter accordingly 
         //TileSelected + '0' converts the current value of TileSelected to characters and then adds them to the file
         FullFile[std::round((GetMouseY() - cellSize / 2) / cellSize) * (NumCols + 2) + std::round((GetMouseX() - cellSize / 2) / cellSize)] 
@@ -270,21 +194,10 @@ void Grid::RenderUI(){
             if(ImGui::Selectable(Name.c_str(), &isSelected, 0, ImVec2(64, 64))) {
                 
                 selectedIdx = idx;
-
                 //We pass TileSelected to the Draw() function so we can draw the tile
-                if(idx == 0){TileSelected = 1;}                                                                        
+                TileSelected = idx + 1;
                 
-                else if(idx == 1){TileSelected = 2;}
-                
-                else if(idx == 2){TileSelected = 3;}
-
-                else if(idx == 3){TileSelected = 4;}
-
-                else if(idx == 4){TileSelected = 5;}
-
-                else if(idx == 5){TileSelected = 6;}
-
-                else{TileSelected = 0;}
+                if(TileSelected > 7){TileSelected = 0;}
 
             }
             
@@ -301,46 +214,16 @@ void Grid::RenderUI(){
 
                 //Because of the way this is formated the name of the NEXT item is declared
                 Name = "Dotted"; 
-                draw_list->AddImage((ImTextureID)MetalThing.id, img_min, img_max);
-
+            
             }
-
-            else if(Counter == 1){
-
-                Name = "Grater";
-                draw_list->AddImage((ImTextureID)Grass.id, img_min, img_max);
-
-            }
-
-            else if(Counter == 2){
-
-                Name = "Chain";
-                draw_list->AddImage((ImTextureID)Grater.id, img_min, img_max);
-
-            }
-
-            else if(Counter == 3){
-
-                Name = "Pipe2";
-                draw_list->AddImage((ImTextureID)Chain.id, img_min, img_max);
-
-            }
-
-            else if(Counter == 4){
-
-                Name = "Pipe";
-                draw_list->AddImage((ImTextureID)Pipe2.id, img_min, img_max);
-
-            }
-
-            else if(Counter == 5){
-
-                Name = "Default";
-                draw_list->AddImage((ImTextureID)Pipe.id, img_min, img_max);
-
-            }
-
-            else{draw_list->AddImage((ImTextureID)MetalThing.id, img_min, img_max);}
+            else if(Counter == 1){Name = "Grater";}
+            else if(Counter == 2){Name = "Chain";}
+            else if(Counter == 3){Name = "Pipe2";}
+            else if(Counter == 4){Name = "Pipe";}
+            else if(Counter == 5){Name = "Latern";}
+            else if(Counter == 6){Name = "Default";}
+            else{draw_list->AddImage((ImTextureID)Textures[0].id, img_min, img_max);}
+            if(Counter < 7){draw_list->AddImage((ImTextureID)Textures[Counter].id, img_min, img_max);}
 
             //Increments the Counter
             Counter++;

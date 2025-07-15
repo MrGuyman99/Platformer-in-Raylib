@@ -28,12 +28,8 @@ public:
     std::vector<Rectangle> BottomCollisionBoxes;
     
     //Textures
-    Texture MetalThing;
-    Texture2D Grass;
-    Texture2D Grater;
-    Texture2D Chain;
-    Texture2D Pipe;
-    Texture2D Pipe2;
+    std::vector<Texture2D> Textures;
+
 
 private:
 

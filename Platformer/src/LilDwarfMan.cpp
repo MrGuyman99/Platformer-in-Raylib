@@ -43,6 +43,10 @@ void DwarfMan::Animate(Texture2D Texture, int FrameSpeed, int Num_Frames, int St
 
     }
 
+    //Resets the CurrentFramePos to prevent glitchs 
+    if(IsKeyReleased(KEY_LEFT) || IsKeyReleased(KEY_RIGHT)){CurrentFramePos = 0;}
+    if(Collided_R == true || Collided_L == true){CurrentFramePos = 0;}
+
     Rectangle SourcePos = {(float)StartPos + CurrentFramePos, 0, 30.0f, 39};
     DrawTextureRec(Texture, SourcePos, (Vector2){Position.x, Position.y + 5}, WHITE);
 
@@ -67,13 +71,13 @@ void DwarfMan::Draw(){
 
     else if(velocity.x == 0 && WasMoving == "Right"){
 
-        Animate(DwarfTexture, 6, 1, 0);
+        Animate(DwarfTexture, 10, 1, 0);
 
     }
 
     else if(velocity.x == 0 && WasMoving == "Left"){
 
-        Animate(DwarfTexture, 6, 1, 60);
+        Animate(DwarfTexture, 10, 1, 60);
 
     }
 
@@ -143,7 +147,7 @@ void DwarfMan::HandleInput(Grid& grid){
 
         if(CheckCollisionRecs(grid.BottomCollisionBoxes[i], GetRectWalls())){
             
-            Position.y = grid.BottomCollisionBoxes[i].y + 8;
+            velocity.y = 0;
             Collided_B = true;
             break;
 
@@ -162,13 +166,6 @@ void DwarfMan::HandleInput(Grid& grid){
     if(IsKeyDown(KEY_LEFT) && Collided_L == false){
 
         velocity.x = -speed;
-
-    }
-
-    //Resets the CurrentFramePos to prevent glitchs 
-    if(IsKeyReleased(KEY_LEFT) || IsKeyReleased(KEY_RIGHT)){
-
-        CurrentFramePos = 0;
 
     }
 
@@ -207,8 +204,8 @@ void DwarfMan::RenderUI(){
 
     if(ImGui::Button("Reset Position", ImVec2(180, 24))){
 
-        Position.x = 960;
-        Position.y = 540; 
+        Position = {960, 540};
+        velocity = {0, 0};
 
     }; 
 

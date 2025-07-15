@@ -13,8 +13,7 @@
 int main(){
 
     //Raylib Stuff
-    SetConfigFlags(FLAG_VSYNC_HINT);
-    //SetConfigFlags(FLAG_WINDOW_TOPMOST | FLAG_WINDOW_UNDECORATED); (Use with second monitor)
+    //SetConfigFlags(FLAG_WINDOW_TOPMOST | FLAG_WINDOW_UNDECORATED);
     SetConfigFlags(FLAG_FULLSCREEN_MODE);
     InitWindow(1920, 1080, "Lil' Dwarf Game");
     SetTargetFPS(60);
@@ -80,11 +79,7 @@ int main(){
     }
 
     //Deconstructers (Bugged Out when I tried to OOP them so I just slapped them here)
-    UnloadTexture(grid.MetalThing);
-    UnloadTexture(grid.Grass);
-    UnloadTexture(grid.Grater);
-    UnloadTexture(grid.Pipe);
-    UnloadTexture(grid.Pipe2);
+    for(size_t i = 0; i < grid.Textures.size(); i++){UnloadTexture(grid.Textures[i]);}
     UnloadTexture(Player.DwarfTexture);
     rlImGuiShutdown();
     CloseWindow();
