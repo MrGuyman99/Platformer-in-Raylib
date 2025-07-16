@@ -13,10 +13,6 @@
 #include "Levels.hpp"
 #include "grid.hpp"
 
-/*
-TODO: Make a vector of Textures & refactor some code
-*/
-
 //Initialzing Global Variables
 Grid::Grid(){
 
@@ -176,7 +172,7 @@ void Grid::RenderUI(){
 
     //Sets the current Counter to 0
     int Counter = 0;
-    //Sets the default name to Metal
+    //Sets the default name to Metal (TODO: Make Name a vector)
     std::string Name = "Metal";
     static int selectedIdx = -1;
 

@@ -20,6 +20,7 @@ DwarfMan::DwarfMan(){
     Position.x = 960;
     Position.y = 540;
     DwarfTexture = LoadTexture("Graphics/DwarfMan.png");
+    JumpTexture = LoadTexture("Graphics/JumpFrame.png");
     Collided_R = false;
     Collided_L = false;
     Collided_B = false;
@@ -43,7 +44,7 @@ void DwarfMan::Animate(Texture2D Texture, int FrameSpeed, int Num_Frames, int St
 
     }
 
-    //Resets the CurrentFramePos to prevent glitchs 
+    //Resets the CurrentFramePos if the player releases a key or touches a wall 
     if(IsKeyReleased(KEY_LEFT) || IsKeyReleased(KEY_RIGHT)){CurrentFramePos = 0;}
     if(Collided_R == true || Collided_L == true){CurrentFramePos = 0;}
 
@@ -52,32 +53,38 @@ void DwarfMan::Animate(Texture2D Texture, int FrameSpeed, int Num_Frames, int St
 
 }
 
-//Drawing TODO: 
+//Controls the Animations of DwarfMan
 void DwarfMan::Draw(){
-
-    if(velocity.x == speed){
+    
+    //Right Running Animation (We pass WasMoving to the idle animation to determine which to play)
+    if(velocity.x == speed && velocity.y == 0){
 
         Animate(DwarfTexture, 4, 3, 120);
-        WasMoving = "Right";
 
     }
 
-    else if(velocity.x == -speed){
+    //Left Running Animation
+    else if(velocity.x == -speed && velocity.y == 0){
 
         Animate(DwarfTexture, 4, 3, 240);
-        WasMoving = "Left";
 
     }
 
-    else if(velocity.x == 0 && WasMoving == "Right"){
-
-        Animate(DwarfTexture, 10, 1, 0);
+    //Left and right idle animations
+    else if(velocity.x == 0 && WasMoving == "Right" && velocity.y == 0){Animate(DwarfTexture, 10, 1, 0);}
+    else if(velocity.x == 0 && WasMoving == "Left" && velocity.y == 0){Animate(DwarfTexture, 10, 1, 60);}
+    //Jump "animations"
+    else if(velocity.y != 0 && WasMoving == "Right"){
+        
+        DrawTextureRec(JumpTexture, (Rectangle){0, 0, 40, 44}, Position, WHITE);
+        CurrentFramePos = 0;
 
     }
-
-    else if(velocity.x == 0 && WasMoving == "Left"){
-
-        Animate(DwarfTexture, 10, 1, 60);
+    
+    else if(velocity.y != 0 && WasMoving == "Left"){
+        
+        DrawTextureRec(JumpTexture, (Rectangle){40, 0, 40, 44}, Position, WHITE);
+        CurrentFramePos = 0;
 
     }
 
@@ -159,13 +166,15 @@ void DwarfMan::HandleInput(Grid& grid){
     if(IsKeyDown(KEY_RIGHT) && Collided_R == false){
         
         velocity.x = speed;
+        WasMoving = "Right";
 
-    }
+    }   
 
     //Same, but speed is inverted
     if(IsKeyDown(KEY_LEFT) && Collided_L == false){
 
         velocity.x = -speed;
+        WasMoving = "Left";
 
     }
 

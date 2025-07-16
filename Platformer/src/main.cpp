@@ -56,31 +56,23 @@ int main(){
                 Player.Update(false);
                 fall = false;
                 
-                if(IsKeyPressed(KEY_UP) == false){
-
-                    Player.Position.y = grid.FloorCollisionBoxes[i].y - 45;
-
-                }
+                if(IsKeyPressed(KEY_UP) == false){Player.Position.y = grid.FloorCollisionBoxes[i].y - 45;}
                 
                 break;
 
             }
 
-            //This is so the player doesn't fall ridiculously fast
-            if(i == grid.FloorCollisionBoxes.size() && fall == true){
-
-                Player.Update(true);
-
-            }
+            //This is so the player doesn't fall ridiculously fast (It only gets called once per frame)
+            if(i == grid.FloorCollisionBoxes.size() && fall == true){Player.Update(true);}
 
         }
-
 
     }
 
     //Deconstructers (Bugged Out when I tried to OOP them so I just slapped them here)
     for(size_t i = 0; i < grid.Textures.size(); i++){UnloadTexture(grid.Textures[i]);}
     UnloadTexture(Player.DwarfTexture);
+    UnloadTexture(Player.JumpTexture);
     rlImGuiShutdown();
     CloseWindow();
 

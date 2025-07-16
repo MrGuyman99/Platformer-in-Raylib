@@ -17,6 +17,8 @@ public:
     Rectangle GetRectWalls();
     Vector2 Position;
     Texture2D DwarfTexture;
+    Texture2D JumpTexture;
+    int CurrentFramePos;
 
 private:
     
@@ -27,7 +29,6 @@ private:
     Vector2 velocity;
     float gravity;
     float speed;
-    int CurrentFramePos;
     int FrameCounter;
     std::string WasMoving;
 
