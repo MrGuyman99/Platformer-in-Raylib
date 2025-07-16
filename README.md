@@ -24,6 +24,15 @@ A little platformer written with C++, Raylib, and rlmGui!
 That's it! The game engine is, at least to my standards, basically finished!!
 The only feature missing is a level switching system
 
+**Build Instructions:**
+
+For Linux: 
+Download the folder and run `bash build.bash` into the terminal
+You NEED raylib installed on linux, I'm not sure if it will compile without it
+
+For Mac & Windows:
+🤷‍♂️
+
 **Made with ❤️ (& Visual Studio Code)**
 
 **-Mr.GuyMan99**
