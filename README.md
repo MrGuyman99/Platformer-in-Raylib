@@ -14,14 +14,15 @@ A little platformer written with C++, Raylib, and rlmGui!
   
 **For Next Update:**
   
-  - Jumping Animation
+  - More Levels
+  - Actual Level Switching System
 
 **For the future:**
 
   - Cool movement tech
-  - Actual Level Switching System
 
-That's it! It's simple but I'm proud of how far it's come
+That's it! The game engine is, at least to my standards, basically finished!!
+The only feature missing is a level switching system
 
 **Made with ❤️ (& Visual Studio Code)**
 
