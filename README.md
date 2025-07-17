@@ -1,4 +1,4 @@
-# Platformer-in-Raylib
+# Platformer-in-Raylib (DEPRECATED)
 A little platformer written with C++, Raylib, and rlmGui!
 **Work in Progress!!**
 
